@@ -51,6 +51,18 @@ public class AppDbContext : DbContext
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123")
             }
         );
+        
+        modelBuilder.Entity<Payslip>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Salary).HasPrecision(18, 2);
+            entity.Property(p => p.MiscAllowance).HasPrecision(18, 2);
+            entity.Property(p => p.Pension).HasPrecision(18, 2);
+            entity.Property(p => p.HealthInsurance).HasPrecision(18, 2);
+            entity.Property(p => p.FamilyBenefit).HasPrecision(18, 2);
+            entity.Property(p => p.Housing).HasPrecision(18, 2);
+            entity.Property(p => p.ProfessionalAllowance).HasPrecision(18, 2);
+        });
     }
 
 }
