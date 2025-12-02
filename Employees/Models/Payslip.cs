@@ -1,0 +1,16 @@
+namespace Employees.Models
+{
+    public class Payslip
+    {
+        public int Id { get; set; }
+        public decimal Salary { get; set; }
+        public decimal MiscAllowance { get; set; }
+        public decimal Pension { get; set; }
+        public decimal HealthInsurance { get; set; }
+        public decimal FamilyBenefit { get; set; }
+        public decimal Housing { get; set; }
+        public decimal ProfessionalAllowance { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
+    }
+}
