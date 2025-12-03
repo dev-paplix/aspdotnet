@@ -152,6 +152,7 @@ public AuthController(AppDbContext context, IConfiguration configuration, ILogge
         }
     }
 
+    //Get api/auth/users/{id}
     [HttpGet("users/{id}")]
     public async Task<ActionResult<ApiResponse<UserResponseDto>>> GetUser(int id)
     {
