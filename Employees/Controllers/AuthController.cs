@@ -261,6 +261,42 @@ public AuthController(AppDbContext context, IConfiguration configuration, ILogge
         }
     }
 
+    [HttpDelete]
+    public async Task<ActionResult<ApiResponse<string>>> DeleteUser(int id)
+    {
+        try
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound(new ApiResponse<string>
+                {
+                    Success = false,
+                    Message = "User not found"
+                });
+            }
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new ApiResponse<string>
+            {
+                Success = true,
+                Message = "User deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting user {id}", id);
+            return StatusCode(500, new ApiResponse<string>
+            {
+                Success = false,
+                Message = "Error occured while deleting the user"
+            });
+        }
+    }
+
     private string GenerateJwtToken(User user)
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
