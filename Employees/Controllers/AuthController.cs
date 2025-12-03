@@ -134,7 +134,7 @@ public AuthController(AppDbContext context, IConfiguration configuration, ILogge
 
             var userDtos = users.Select(u => MapToUserDto(u)).ToList();
 
-            return Ok(new ApiResponse<IEnumerable<UserRegisterDto>>
+            return Ok(new ApiResponse<IEnumerable<UserResponseDto>>
             {
                 Success = true,
                 Message = "Users retrive successfully",
@@ -151,6 +151,157 @@ public AuthController(AppDbContext context, IConfiguration configuration, ILogge
             });
         }
     }
+
     [HttpGet("users/{id}")]
+    public async Task<ActionResult<ApiResponse<UserResponseDto>>> GetUser(int id)
+    {
+        try
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user ==null)
+            {
+                return NotFound(new ApiResponse<UserResponseDto>
+                {
+                    Success = false,
+                    Message = "User not found"
+                });
+            }
+
+            return Ok(new ApiResponse<UserResponseDto>
+            {
+                Success = true,
+                Message = "User fetched successfully",
+                Data = MapToUserDto(user)
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching user {id}", id);
+            return StatusCode(500, new ApiResponse<UserResponseDto>
+            {
+                Success = false,
+                Message = "Error occured while fetching user"
+            });
+        }
+    }
+
+    [HttpPut("users/{id}/role")]
+    public async Task<ActionResult<ApiResponse<UserResponseDto>>> UpdateUserRole(int id, [FromBody] UserRole role)
+    {
+        try
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound(new ApiResponse<UserResponseDto>
+                {
+                    Success = false,
+                    Message = "User not found"
+                });
+            }
+
+            user.Role = role;
+            await _context.SaveChangesAsync();
+
+            return Ok(new ApiResponse<UserResponseDto>
+            {
+                Success = true,
+                Message = "User role updated successfully",
+                Data = MapToUserDto(user)
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching user {id}", id);
+            return StatusCode(500, new ApiResponse<UserResponseDto>
+            {
+                Success = false,
+                Message = "Error occured while updating the user role"
+            });
+        }
+    }
+
+    [HttpPut("users/{id}/status")]
+    public async Task<ActionResult<ApiResponse<UserResponseDto>>> UpdateUserStatus(int id, [FromBody] bool isActive)
+    {
+        try
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            
+            if (user == null)
+            {
+                return NotFound(new ApiResponse<UserResponseDto>
+                {
+                    Success = false,
+                    Message = "User not found"
+                });
+            }
+            
+            user.IsActive = isActive;
+            await _context.SaveChangesAsync();
+
+            return Ok(new ApiResponse<UserResponseDto>
+            {
+                Success = true,
+                Message = $"User {(isActive ? "activated" : "deactivated")} successfully",
+                Data = MapToUserDto(user)
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching user {id}", id);
+            return StatusCode(500, new ApiResponse<UserResponseDto>
+            {
+                Success = false,
+                Message = "Error occured while updating the user status"
+            });
+        }
+    }
+
+    private string GenerateJwtToken(User user)
+    {
+        var jwtSettings = _configuration.GetSection("JwtSettings");
+        var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
+        };
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddHours(Convert.ToDouble(jwtSettings["ExpirationHours"] ?? "24")),
+            Issuer = jwtSettings["Issuer"],
+            Audience = jwtSettings["Audience"],
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature
+            )
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+
+    private static UserResponseDto MapToUserDto(User user)
+    {
+        return new UserResponseDto
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role,
+            IsActive = user.IsActive,
+            CreatedAt = user.CreatedAt
+        };
+    }
 
 }

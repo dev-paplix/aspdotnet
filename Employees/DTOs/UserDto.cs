@@ -28,7 +28,7 @@ public class UserResponseDto
 public class LoginResponseDto
 {
     public string Token { get; set; } = string.Empty;
-    public UserRegisterDto User { get; set; } = null!;
+    public UserResponseDto User { get; set; } = null!;
 }
 
 public class ApiResponse<T>
