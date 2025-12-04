@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Employees Management System</h1>
+    <p>Use the navigation menu to manage employees.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-people-fill"></i> Manage Employees
+                </h5>
+                <p class="card-text">View, add, edit, and delete employee records.</p>
+                <a asp-controller="Employees" asp-action="Index" class="btn btn-primary">
+                    Go to Employees
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-person-plus-fill"></i> Add Employee
+                </h5>
+                <p class="card-text">Quickly add a new employee to the system.</p
+                <a asp-controller="Employees" asp-action="Create" class="btn btn-success">
+                    Add Employee
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-search"></i> Search Employees
+                </h5>
+                <p class="card-text">Find employees by name, department, or role.</p>
+                <a asp-controller="Employees" asp-action="Index" class="btn btn-info">
+                    Search Employees
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h3>Features</h3>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <i class="bi bi-check-circle-fill text-success"></i> Compleste CRUD operations for employee records.
+        </li>
+        <li class="list-group-item">
+            <i class="bi bi-check-circle-fill text-success"></i> Form Validation (client and server-side).
+        </li>
+        <li class="list-group-item">
+            <i class="bi bi-check-circle-fill text-success"></i> Repository Pattern implementation for data access.
+        </li>
+        <li class="list-group-item">
+            <i class="bi bi-check-circle-fill text-success"></i> MVC Tag Helpers
+        </li>
+        <li class="list-group-item">
+            <i class="bi bi-check-circle-fill text-success"></i> Custom Tag Helpers
+        </li>
+        <li class="list-group-item">
+            <i class="bi bi-check-circle-fill text-success"></i> Partial Views and layouts
+        </li>
+    </ul>
+</div>
