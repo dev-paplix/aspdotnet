@@ -1,0 +1,26 @@
+@model EmployeeViewModel
+
+<div class="card">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">
+            <i class="bi bi-info-circle-fill"></i> Employee Information
+        </h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">Employee ID</dt>
+            <dd class="col-sm-8">@Model.Id</dd>
+
+            <dt class="col-sm-4">Full Name</dt>
+            <dd class="col-sm-8">@Model.FullName</dd>
+
+            <dt class="col-sm-4">Position</dt>
+            <dd class="col-sm-8">@Model.Position</dd>
+
+            <dt class="col-sm-4">Department</dt>
+            <dd class="col-sm-8">@Model.Department</dd>
+
+            <dt class="col-sm-4">Email</dt>
+            <dd class="col-sm-8">@Model.Email</dd>
+        </dl>
+</div>

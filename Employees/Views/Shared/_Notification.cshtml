@@ -1,0 +1,27 @@
+@if (TempData["SuccessMessage"] != null)
+{
+    <alert type="success" dismissible="true">
+        <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
+    </alert>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <alert type="danger" dismissible="true">
+        <i class="bi bi-exclamation-triangle-fill"></i> @TempData["ErrorMessage"]
+    </alert>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <alert type="info" dismissible="true">
+        <i class="bi bi-info-circle-fill"></i> @TempData["InfoMessage"]
+    </alert>
+}
+
+@if (TempData["WarningMessage"] != null)
+{
+    <alert type="warning" dismissible="true">
+        <i class="bi bi-exclamation-circle-fill"></i> @TempData["WarningMessage"]
+    </alert>
+}
