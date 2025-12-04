@@ -8,31 +8,31 @@ public class EmployeeViewModel
     [Required(ErrorMessage = "First name is required")]
     [StringLength(100, ErrorMessage = "First Name cannot exceed 100 charecters")]
     [Display(Name = "First Name")]
-    public string FirstName { get; set; }
+    public string FirstName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Last name is required")]
     [StringLength(100, ErrorMessage = "Last Name cannot exceed 100 charecters")]
     [Display(Name = "Last Name")]
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Email is required")]
     [EmailAddress(ErrorMessage = "Invalid Email Address")]
     [StringLength(255, ErrorMessage = "Email cannot exceed 255 characters")]
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 
 
 
     [Phone(ErrorMessage = "Invalid Phone Number")]
     [StringLength(25, ErrorMessage = "Phone number cannot exceed 25 characters")]
-    public string Phone { get; set; }
+    public string Phone { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Position is required")]
     [StringLength(100, ErrorMessage = "Position cannot exceed 100 characters")]
-    public string Position { get; set; }
+    public string Position { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Department is required")]
     [StringLength(100, ErrorMessage = "Department cannot exceed 100 characters")]
-    public string Department { get; set; }
+    public string Department { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Hire Date is required")]
     [DataType(DataType.Date)]
