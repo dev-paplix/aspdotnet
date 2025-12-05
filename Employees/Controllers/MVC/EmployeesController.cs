@@ -77,7 +77,7 @@ public class EmployeesController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        return View(new EmployeeViewModel {HireDate = DateTime.Now});
+        return View(new EmployeeViewModel { HireDate = DateTime.Now, IsActive = true });
     }
 
     // Post: /Employees/Create
