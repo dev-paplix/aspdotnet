@@ -97,4 +97,24 @@ app.MapControllerRoute(
     pattern: "Privacy",
     defaults: new { controller = "Home", action = "Privacy" });
 
+app.MapControllerRoute(
+    name: "employeeByDept",
+    pattern: "employees/dept/{department}",
+    defaults: new {controller = "Employees", action = "Index"});
+
+app.MapControllerRoute(
+    name: "employeeDetails",
+    pattern: "employee/{id:int}/details",
+    defaults: new {controller = "Employees", action = "Details"},
+    constraints: new {id = new Microsoft.AspNetCore.Routing.Constraints.RangeRouteConstraint(1, 9999)});
+
+app.MapControllerRoute(
+    name: "employeeByYear",
+    pattern: "employees/hired/{year:int}",
+    defaults: new {year = new Microsoft.AspNetCore.Routing.Constraints.RangeRouteConstraint (2000,2100)});
+
+app.MapControllerRoute(
+    name: "api",
+    pattern: "api/{controller}/{action}/{id?}");
+
 app.Run();
