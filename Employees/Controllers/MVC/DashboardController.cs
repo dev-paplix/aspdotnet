@@ -54,5 +54,67 @@ public class DashboardController : Controller
         };
         return View(viewModels);
     }
+    [HttpGet("stats")]
+    public async Task<IActionResult> Statistics(string department = "")
+    {
+        var employees = await _employeeRepository.GetAllAsync();
+        var filtered = string.IsNullOrEmpty(department) ? employees : employees.Where(e => e.Department == department);
 
+        var stats = new
+        {
+            Count = filtered.Count(),
+            AverageSalary = filtered.Any() ? filtered.Average(e => e.Salary):0,
+            MedianSalary = CalculateMedian(filtered.Select(e => e.Salary).ToList()),
+            MinSalary = filtered.Any() ? filtered.Min(e=> e.Salary) : 0,
+            MaxSalary = filtered.Any() ? filtered.Max(e => e.Salary) : 0
+        };
+
+        return Json(stats);
+    }
+
+    [HttpGet("reset-session")]
+    public IActionResult ResetSesssion()
+    {
+        HttpContext.Session.Clear();
+        TempData["InfoMessage"] = "Session data has been cleared.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    private decimal CalculateMedian(List<decimal> values)
+    {
+        if (!values.Any()) return 0;
+
+        var sorted = values.OrderBy( v => v).ToList();
+        int count = sorted.Count;
+
+        if (count %2 == 0)
+        {
+            return (sorted[count / 2-1] + sorted[count/2]) /2 ;
+        }
+
+        return sorted[count / 2];
+    }
+}
+
+public class ApplicationStatesService
+{
+    private int _totalRequests = 0;
+    private readonly object _lock = new object();
+    public int TotalRequests
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _totalRequests;
+            }
+        }
+    }
+    public void IncrementRequests()
+    {
+        lock (_lock)
+        {
+            _totalRequests ++;
+        }
+    }
 }
