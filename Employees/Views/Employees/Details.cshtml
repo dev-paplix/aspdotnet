@@ -1,0 +1,77 @@
+@model EmployeeViewModel
+@{
+    ViewData["Title"] = "Details Employee";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+        <i class="bi bi-person-page-fill"></i> @ViewData["Title"]
+    </h1>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-pencil-square"></i> Edit
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left-circle"></i> Back to List
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">@Model.FullName</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Email
+                        <label asp-for="Email"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <a href="mailto:@Model.Email">@Model.Email</a>
+                    </dd>
+                    <dt class="col-sm-4">Phone
+                        <label asp-for="Phone"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <a href="tel:@Model.Phone">@Model.Phone</a>
+                    </dd>
+                    <dt class="col-sm-4">Position
+                        <label asp-for="Position"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Position
+                    </dd>
+                    <dt class="col-sm-4">Department
+                        <label asp-for="Department"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.Department
+                    </dd>
+                    <dt class="col-sm-4">Hire Date
+                        <label asp-for="HireDate"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Model.HireDate.ToString("MMMM dd, yyyy")
+                    </dd>
+                    <dt class="col-sm-4">Salary
+                        <label asp-for="Salary"></label>
+                    </dt>
+                    <dd class="col-sm-8">   
+                        @Model.Salary.ToString("C") 
+                    </dd>
+                    <dt class="col-sm-4">IsActive
+                        <label asp-for="IsActive"></label>
+                    </dt>
+                    <dd class="col-sm-8">
+                        @(Model.IsActive ? "Yes" : "No")
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <partial name="_EmployeeInfo" model="Model" />
+    </div>
+</div>
