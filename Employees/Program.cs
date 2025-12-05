@@ -5,7 +5,7 @@ using System.Text;
 using Employees.Data;
 using Microsoft.Extensions.Options;
 using Employees.Controllers.MVC;
-
+using Employees.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -80,6 +80,8 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseRequestTracking();
 
 app.UseSession();
 app.UseCors("AllowFrontend");
