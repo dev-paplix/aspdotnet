@@ -6,11 +6,19 @@ using Employees.Data;
 using Microsoft.Extensions.Options;
 using Employees.Controllers.MVC;
 using Employees.Middleware;
+using Employees.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<ApplicationStatesService>();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IUserRepository, UserRespository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

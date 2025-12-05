@@ -27,7 +27,7 @@ public class AccountController : Controller
         }
 
         ViewData["ReturnUrl"] = returnUrl;
-        return View();
+        return View(new LoginViewModel { ReturnUrl = returnUrl });
     }
 
     // Post: /Account/login
